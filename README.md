@@ -30,6 +30,8 @@ This project uses synthetic web server access logs to test all three probabilist
 - **Medium**: 100,000 events (8,556 unique users, 500 URLs)
 - **Large**: 1,000,000 events (47,382 unique users, 1,000 URLs)
 
+The largest dataset was limited to 1 million events instead of 10 million due to hardware constraints during benchmarking.
+
 **Note**: The large dataset is not included in this repository due to GitHub's 100 MB file size limit. To generate it locally:
 
 ```bash
