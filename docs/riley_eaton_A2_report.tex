@@ -1,0 +1,48 @@
+%% ACM Small Standard Format (without copyright/journal info)
+\documentclass[acmsmall,screen,nonacm]{acmart}
+
+%% Remove ACM reference format
+\settopmatter{printacmref=false, printccs=false}
+
+%% Essential packages
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{threeparttable}
+
+%% Title and author information
+\title{Assignment 2: Analysis of Probabilistic Data Structures}
+
+\author{Riley Eaton}
+\affiliation{%
+  \institution{University of British Columbia}
+  \city{Kelowna}
+  \state{BC}
+  \country{Canada}
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction} \label{sec:introduction}
+\input{sections/introduction}
+
+\section{Computational Complexity} \label{sec:complexity}
+\input{sections/complexity}
+
+\section{Dataset} \label{sec:dataset}
+\input{sections/dataset}
+
+\section{Experiments} \label{sec:experiments}
+\input{sections/experiments}
+
+\input{sections/results}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references/refs}
+
+\section*{Acknowledgments}
+Anthropic's Claude was used to generate some documentation once implementation was complete, reviewing the finalized report to suggest edits, and improving the repository file structure. The complete source code and dataset for this project are available at \url{https://github.com/rileyeaton-ubc/ubc-520-a2}.
+
+\end{document}

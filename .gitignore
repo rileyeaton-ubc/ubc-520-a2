@@ -1,0 +1,16 @@
+.*/
+venv/
+assignment.pdf
+*pycache*
+.claude/
+
+# LaTeX-Specific
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.bbl
+*.blg
+*.pre
