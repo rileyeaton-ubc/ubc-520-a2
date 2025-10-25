@@ -1,1 +1,132 @@
-The time and space computational complexity of the data structures. Need to justify the complexity briefly, and explain each parameters used and provide the formula with appropriate references. Use a table to compare the three against each other. 
+The efficiency of probabilistic data structures makes them valuable for large-scale applications. This section analyzes the time and space complexity of Bloom filters, Count-Min sketches, and LogLog algorithms, explaining the parameters that govern their performance.
+
+\subsection{Bloom Filter Complexity}
+
+\subsubsection{Space Complexity}
+
+A Bloom filter uses a bit array of size $m$ bits, giving a space complexity of $O(m)$. The optimal size depends on the expected number of elements $n$ and desired false positive rate $p$:
+
+\begin{equation}
+m = -\frac{n \ln p}{(\ln 2)^2} \approx -1.44 n \log_2 p
+\end{equation}
+
+For example, to store 1 million elements with a 1\% false positive rate requires approximately 9.6 bits per element, totaling about 1.2 MB---far less than storing the elements themselves.
+
+The number of hash functions $k$ that minimizes the false positive rate is:
+
+\begin{equation}
+k = \frac{m}{n} \ln 2 \approx 0.693 \frac{m}{n}
+\end{equation}
+
+Each bit in the filter stores a single bit of information, making Bloom filters extremely space-efficient compared to hash tables or sets that must store complete element representations.
+
+\subsubsection{Time Complexity}
+
+Both insertion and query operations require computing $k$ hash functions and accessing $k$ positions in the bit array, yielding:
+
+\begin{itemize}
+    \item \textbf{Insertion}: $O(k)$ time
+    \item \textbf{Query}: $O(k)$ time
+\end{itemize}
+
+Since $k$ is typically a small constant (often 3--10 for practical false positive rates), these operations are effectively constant time $O(1)$ in practice~\cite{bloom1970space}.
+
+\subsection{Count-Min Sketch Complexity}
+
+\subsubsection{Space Complexity}
+
+A Count-Min sketch maintains a two-dimensional array of counters with width $w$ and depth $d$. Each counter typically uses a fixed number of bits (e.g., 32 or 64 bits). The space complexity is:
+
+\begin{equation}
+O(w \cdot d) = O\left(\frac{e}{\epsilon} \cdot \ln \frac{1}{\delta}\right)
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $\epsilon$ is the error bound (additive error in frequency estimates)
+    \item $\delta$ is the failure probability
+    \item $e \approx 2.718$ is Euler's number
+\end{itemize}
+
+The dimensions are chosen as $w = \lceil e/\epsilon \rceil$ and $d = \lceil \ln(1/\delta) \rceil$ to achieve the desired accuracy guarantees~\cite{cormode2005improved}.
+
+For example, with $\epsilon = 0.01$ (1\% error) and $\delta = 0.01$ (99\% confidence), the sketch requires $w \approx 272$ and $d \approx 5$, totaling 1,360 counters. Using 32-bit counters, this consumes approximately 5.3 KB regardless of stream size.
+
+\subsubsection{Time Complexity}
+
+Update and query operations both hash the element with $d$ hash functions and access $d$ counters:
+
+\begin{itemize}
+    \item \textbf{Update}: $O(d) = O(\ln(1/\delta))$ time
+    \item \textbf{Query}: $O(d) = O(\ln(1/\delta))$ time
+\end{itemize}
+
+With typical values of $d$ (3--10), these operations are constant time in practice. Importantly, the time complexity is independent of the stream length and the number of distinct elements.
+
+\subsection{LogLog Complexity}
+
+\subsubsection{Space Complexity}
+
+LogLog uses $m = 2^b$ registers, where each register stores the maximum number of leading zeros observed in its substream. For a maximum expected cardinality of $n_{\max}$, each register requires:
+
+\begin{equation}
+\log_2 \log_2 n_{\max} \text{ bits}
+\end{equation}
+
+The total space complexity is:
+
+\begin{equation}
+O(m \log \log n_{\max})
+\end{equation}
+
+This doubly-logarithmic dependence on $n_{\max}$ is notable. For example, to estimate cardinalities up to $2^{32} \approx 4.3$ billion using $m = 1024$ registers, each register needs only 5 bits, totaling 640 bytes. Even for datasets with trillions of elements ($n_{\max} = 2^{64}$), each register requires only 6 bits~\cite{durand2003loglog}.
+
+The standard error of the estimate is:
+
+\begin{equation}
+\sigma \approx \frac{1.30}{\sqrt{m}}
+\end{equation}
+
+Thus, quadrupling the number of registers (and the memory usage) halves the standard error.
+
+\subsubsection{Time Complexity}
+
+Processing each element involves:
+\begin{enumerate}
+    \item Computing a hash function: $O(1)$ amortized time
+    \item Extracting the first $b$ bits to determine the register: $O(1)$ time
+    \item Counting leading zeros: $O(1)$ time (bounded by hash output size)
+    \item Updating one register: $O(1)$ time
+\end{enumerate}
+
+Therefore:
+\begin{itemize}
+    \item \textbf{Update}: $O(1)$ time per element
+    \item \textbf{Cardinality estimation}: $O(m)$ time to aggregate all register values
+\end{itemize}
+
+The estimation step requires computing the harmonic mean across all $m$ registers, but this is typically done once after processing the entire stream.
+
+\subsection{Comparative Analysis}
+
+Table~\ref{tab:complexity_comparison} summarizes the time and space complexity of the three data structures.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Data Structure} & \textbf{Space} & \textbf{Update} & \textbf{Query} \\
+\midrule
+Bloom Filter & $O(m)$ & $O(k)$ & $O(k)$ \\
+ & $m = -\frac{n \ln p}{(\ln 2)^2}$ & $k = \frac{m}{n} \ln 2$ & $k = \frac{m}{n} \ln 2$ \\[0.5em]
+Count-Min Sketch & $O(wd)$ & $O(d)$ & $O(d)$ \\
+ & $w = \lceil e/\epsilon \rceil$ & $d = \lceil \ln(1/\delta) \rceil$ & $d = \lceil \ln(1/\delta) \rceil$ \\[0.5em]
+LogLog & $O(m \log \log n_{\max})$ & $O(1)$ & $O(m)$\textsuperscript{*} \\
+ & $m = 2^b$ registers & per element & for estimation \\
+\bottomrule
+\end{tabular}
+\caption{Computational complexity comparison of the three probabilistic data structures. Parameters: $n$ (expected elements), $p$ (false positive rate), $\epsilon$ (error bound), $\delta$ (failure probability), $m$ (number of registers/bits), $k$ (hash functions), $w$ (width), $d$ (depth), $n_{\max}$ (maximum cardinality). \textsuperscript{*}LogLog estimation aggregates $m$ registers; updates are $O(1)$ per element.}
+\label{tab:complexity_comparison}
+\end{table}
+
+All three structures achieve sublinear space complexity relative to storing complete element information. Bloom filters and Count-Min sketches provide constant-time operations for practical parameter choices, while LogLog offers the most aggressive space compression through its doubly-logarithmic dependence on the maximum cardinality. The choice among these structures depends on the specific problem: set membership (Bloom filter), frequency estimation (Count-Min sketch), or cardinality estimation (LogLog).
