@@ -1,1 +1,74 @@
-Explination of generating the synthetic data being used for testing all three data structures, and why it has been chosen.
+We generated a synthetic dataset modeled after web server access logs to comprehensively evaluate the three probabilistic data structures. This dataset type was chosen because it naturally supports testing all three data structures while reflecting realistic usage patterns.
+
+\subsection{Dataset Design}
+
+The synthetic dataset simulates web server traffic with the following attributes:
+
+\begin{itemize}
+    \item \textbf{User IDs}: Represented as IP addresses, serving as identifiers for unique visitors
+    \item \textbf{URLs}: Endpoint paths accessed by users (e.g., \texttt{/home}, \texttt{/products})
+    \item \textbf{Timestamps}: Sequential timestamps spanning the access log period
+    \item \textbf{Request metadata}: HTTP method (GET, POST, etc.), status codes, and user agents
+\end{itemize}
+
+This design allows testing each data structure with its intended use case:
+
+\begin{enumerate}
+    \item \textbf{Bloom Filter}: Set membership testing for URLs (``Has this endpoint been accessed before?'')
+    \item \textbf{Count-Min Sketch}: Frequency estimation for URLs (``How many times was each endpoint accessed?'')
+    \item \textbf{LogLog}: Cardinality estimation for user IDs (``How many unique visitors did we receive?'')
+\end{enumerate}
+
+\subsection{Zipfian Distribution}
+
+Real-world web traffic exhibits highly skewed access patterns where a small number of pages receive the majority of traffic~\cite{broder2004network,breslau1999web}. To capture this phenomenon, both user activity and URL popularity are modeled using a Zipfian (power-law) distribution~\cite{breslau1999web} with parameter $\alpha = 1.0$. Under this distribution, the probability of selecting the $k$-th ranked item is:
+
+\begin{equation}
+    P(k) = \frac{1/k^{\alpha}}{\sum_{i=1}^{N} 1/i^{\alpha}}
+\end{equation}
+
+where $N$ is the total number of unique items. This creates a realistic scenario where:
+
+\begin{itemize}
+    \item The most popular URL receives $\sim$13\% of all requests (133,012 out of 1,000,000 in the large dataset)
+    \item The median URL receives only 37 requests
+    \item Most users make few requests, while power users dominate traffic
+\end{itemize}
+
+This distribution is critical for testing probabilistic data structures because it represents the challenging real-world conditions under which these structures provide the most value---handling skewed data efficiently.
+
+\subsection{Dataset Sizes}
+
+We generated three dataset sizes to evaluate scalability and accuracy trade-offs:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Size} & \textbf{Events} & \textbf{Unique Users} & \textbf{Unique URLs} \\
+\midrule
+Small  & 10,000     & 906       & 100  \\
+Medium & 100,000    & 8,556     & 500  \\
+Large  & 1,000,000  & 47,382    & 1,000 \\
+\bottomrule
+\end{tabular}
+\caption{Dataset sizes and characteristics. Unique counts reflect actual values observed after Zipfian sampling from larger pools (1,000, 10,000, and 50,000 users respectively). Note: The large dataset is not included in the GitHub repository due to file size limitations (103.68 MB exceeds GitHub's 100 MB limit) but can be regenerated using the provided generation script.}
+\label{tab:dataset_sizes}
+\end{table}
+
+\subsection{Ground Truth and Validation}
+
+Each dataset includes a ground truth file containing exact statistics computed during generation:
+
+\begin{itemize}
+    \item Actual unique counts (users and URLs)
+    \item Exact frequency distributions for all items
+    \item Top-10 most frequent users and URLs
+    \item Distribution statistics (min, max, median frequencies)
+\end{itemize}
+
+This ground truth allows precise measurement of estimation errors for each probabilistic data structure. All datasets are generated with a fixed random seed (\texttt{seed=42}) to ensure reproducibility of experimental results.
+
+\subsection{Data Format}
+
+The dataset is provided in CSV format (complete logs), TXT streams (simplified testing), and JSON (ground truth statistics). The stream files provide simplified inputs for benchmarking individual data structure operations without parsing overhead.
