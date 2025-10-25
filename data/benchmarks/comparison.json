@@ -1,0 +1,114 @@
+{
+  "structures": [
+    {
+      "name": "Bloom Filter",
+      "primary_use": "Set membership testing",
+      "guarantees": "No false negatives, tunable false positive rate",
+      "memory_kb": 0.6826171875,
+      "insert_throughput": 166718.49908577788,
+      "query_throughput": 125016.51266766021,
+      "bits_per_element": 9.586,
+      "key_strength": "Space-efficient set membership with no false negatives",
+      "key_limitation": "Cannot remove elements, only membership queries"
+    },
+    {
+      "name": "Count-Min Sketch",
+      "primary_use": "Frequency estimation",
+      "guarantees": "Never underestimates, \u03b5-\u03b4 error bounds",
+      "memory_kb": 5.41015625,
+      "insert_throughput": 85419.6184093022,
+      "query_throughput": "N/A",
+      "bytes_per_element": 0.0554,
+      "key_strength": "Accurate frequency counts with theoretical error bounds",
+      "key_limitation": "Can overestimate frequencies due to collisions"
+    },
+    {
+      "name": "LogLog",
+      "primary_use": "Cardinality estimation",
+      "guarantees": "Probabilistic with standard error bounds",
+      "memory_kb": 16.09765625,
+      "insert_throughput": 170713.55454480703,
+      "query_throughput": "O(1) - constant time",
+      "bytes_per_element": 1.9266012155212717,
+      "key_strength": "Estimates cardinality in log-log space",
+      "key_limitation": "Higher variance compared to HyperLogLog"
+    }
+  ],
+  "summary": {
+    "memory_efficiency_ranking": [
+      {
+        "name": "Count-Min Sketch",
+        "primary_use": "Frequency estimation",
+        "guarantees": "Never underestimates, \u03b5-\u03b4 error bounds",
+        "memory_kb": 5.41015625,
+        "insert_throughput": 85419.6184093022,
+        "query_throughput": "N/A",
+        "bytes_per_element": 0.0554,
+        "key_strength": "Accurate frequency counts with theoretical error bounds",
+        "key_limitation": "Can overestimate frequencies due to collisions"
+      },
+      {
+        "name": "LogLog",
+        "primary_use": "Cardinality estimation",
+        "guarantees": "Probabilistic with standard error bounds",
+        "memory_kb": 16.09765625,
+        "insert_throughput": 170713.55454480703,
+        "query_throughput": "O(1) - constant time",
+        "bytes_per_element": 1.9266012155212717,
+        "key_strength": "Estimates cardinality in log-log space",
+        "key_limitation": "Higher variance compared to HyperLogLog"
+      },
+      {
+        "name": "Bloom Filter",
+        "primary_use": "Set membership testing",
+        "guarantees": "No false negatives, tunable false positive rate",
+        "memory_kb": 0.6826171875,
+        "insert_throughput": 166718.49908577788,
+        "query_throughput": 125016.51266766021,
+        "bits_per_element": 9.586,
+        "key_strength": "Space-efficient set membership with no false negatives",
+        "key_limitation": "Cannot remove elements, only membership queries"
+      }
+    ],
+    "throughput_ranking": [
+      {
+        "name": "LogLog",
+        "primary_use": "Cardinality estimation",
+        "guarantees": "Probabilistic with standard error bounds",
+        "memory_kb": 16.09765625,
+        "insert_throughput": 170713.55454480703,
+        "query_throughput": "O(1) - constant time",
+        "bytes_per_element": 1.9266012155212717,
+        "key_strength": "Estimates cardinality in log-log space",
+        "key_limitation": "Higher variance compared to HyperLogLog"
+      },
+      {
+        "name": "Bloom Filter",
+        "primary_use": "Set membership testing",
+        "guarantees": "No false negatives, tunable false positive rate",
+        "memory_kb": 0.6826171875,
+        "insert_throughput": 166718.49908577788,
+        "query_throughput": 125016.51266766021,
+        "bits_per_element": 9.586,
+        "key_strength": "Space-efficient set membership with no false negatives",
+        "key_limitation": "Cannot remove elements, only membership queries"
+      },
+      {
+        "name": "Count-Min Sketch",
+        "primary_use": "Frequency estimation",
+        "guarantees": "Never underestimates, \u03b5-\u03b4 error bounds",
+        "memory_kb": 5.41015625,
+        "insert_throughput": 85419.6184093022,
+        "query_throughput": "N/A",
+        "bytes_per_element": 0.0554,
+        "key_strength": "Accurate frequency counts with theoretical error bounds",
+        "key_limitation": "Can overestimate frequencies due to collisions"
+      }
+    ],
+    "use_cases": {
+      "Bloom Filter": "Cache filtering, spell checking, malicious URL detection",
+      "Count-Min Sketch": "Network traffic analysis, trending topics, query frequency",
+      "LogLog": "Unique visitor counting, database query optimization, large-scale analytics"
+    }
+  }
+}

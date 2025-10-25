@@ -1,0 +1,137 @@
+{
+  "name": "Bloom Filter",
+  "experiments": [
+    {
+      "name": "False Positive Rate vs Configuration",
+      "description": "Tests how FPR varies with filter size and hash count",
+      "data": [
+        {
+          "size": 10000,
+          "num_hashes": 3,
+          "target_fpr": 0.001,
+          "items_added": 250,
+          "load_factor": 0.0722,
+          "actual_fpr": 0.004,
+          "expected_fpr": 0.0003772515301377027,
+          "memory_bytes": 1350,
+          "memory_kb": 1.318359375,
+          "insert_time_ms": 1.9991397857666016,
+          "query_time_ms": 0.9999275207519531,
+          "insert_throughput": 125053.78652355396,
+          "query_throughput": 250018.12112541727
+        },
+        {
+          "size": 10000,
+          "num_hashes": 5,
+          "target_fpr": 0.01,
+          "items_added": 250,
+          "load_factor": 0.1177,
+          "actual_fpr": 0.0,
+          "expected_fpr": 2.239992552655869e-05,
+          "memory_bytes": 1350,
+          "memory_kb": 1.318359375,
+          "insert_time_ms": 2.000093460083008,
+          "query_time_ms": 1.9998550415039062,
+          "insert_throughput": 124994.15901776135,
+          "query_throughput": 125009.06056270863
+        },
+        {
+          "size": 5000,
+          "num_hashes": 3,
+          "target_fpr": 0.1,
+          "items_added": 250,
+          "load_factor": 0.1404,
+          "actual_fpr": 0.004,
+          "expected_fpr": 0.0027025811482068833,
+          "memory_bytes": 725,
+          "memory_kb": 0.7080078125,
+          "insert_time_ms": 2.000093460083008,
+          "query_time_ms": 1.5017986297607422,
+          "insert_throughput": 124994.15901776135,
+          "query_throughput": 166467.05826321637
+        },
+        {
+          "size": 20000,
+          "num_hashes": 7,
+          "target_fpr": 0.0001,
+          "items_added": 250,
+          "load_factor": 0.0838,
+          "actual_fpr": 0.0,
+          "expected_fpr": 2.8974999387175497e-08,
+          "memory_bytes": 2600,
+          "memory_kb": 2.5390625,
+          "insert_time_ms": 2.0034313201904297,
+          "query_time_ms": 0.9996891021728516,
+          "insert_throughput": 124785.90979412115,
+          "query_throughput": 250077.74862866683
+        }
+      ]
+    },
+    {
+      "name": "Scalability Analysis",
+      "description": "Performance with increasing dataset sizes",
+      "data": [
+        {
+          "dataset_size": 50,
+          "filter_size": 480,
+          "num_hashes": 7,
+          "memory_bytes": 160,
+          "memory_kb": 0.15625,
+          "insert_time_ms": 0.0,
+          "query_time_ms": 1.0006427764892578,
+          "insert_throughput": 0,
+          "query_throughput": 49967.881820347866,
+          "bits_per_element": 9.6
+        },
+        {
+          "dataset_size": 125,
+          "filter_size": 1199,
+          "num_hashes": 7,
+          "memory_bytes": 249,
+          "memory_kb": 0.2431640625,
+          "insert_time_ms": 0.9987354278564453,
+          "query_time_ms": 0.0,
+          "insert_throughput": 125158.27166388159,
+          "query_throughput": 0,
+          "bits_per_element": 9.592
+        },
+        {
+          "dataset_size": 250,
+          "filter_size": 2397,
+          "num_hashes": 7,
+          "memory_bytes": 399,
+          "memory_kb": 0.3896484375,
+          "insert_time_ms": 1.0006427764892578,
+          "query_time_ms": 1.9991397857666016,
+          "insert_throughput": 249839.40910173935,
+          "query_throughput": 125053.78652355396,
+          "bits_per_element": 9.588
+        },
+        {
+          "dataset_size": 375,
+          "filter_size": 3595,
+          "num_hashes": 7,
+          "memory_bytes": 549,
+          "memory_kb": 0.5361328125,
+          "insert_time_ms": 3.000020980834961,
+          "query_time_ms": 3.000020980834961,
+          "insert_throughput": 124999.12580465707,
+          "query_throughput": 124999.12580465707,
+          "bits_per_element": 9.586666666666666
+        },
+        {
+          "dataset_size": 500,
+          "filter_size": 4793,
+          "num_hashes": 7,
+          "memory_bytes": 699,
+          "memory_kb": 0.6826171875,
+          "insert_time_ms": 2.9990673065185547,
+          "query_time_ms": 3.999471664428711,
+          "insert_throughput": 166718.49908577788,
+          "query_throughput": 125016.51266766021,
+          "bits_per_element": 9.586
+        }
+      ]
+    }
+  ]
+}

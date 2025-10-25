@@ -1,0 +1,184 @@
+{
+  "name": "LogLog",
+  "experiments": [
+    {
+      "name": "Accuracy vs Precision",
+      "description": "How precision parameter affects estimation accuracy",
+      "data": [
+        {
+          "precision": 8,
+          "num_registers": 256,
+          "true_cardinality": 8556,
+          "estimated_cardinality": 8574,
+          "error": 18,
+          "relative_error": 0.0021037868162692847,
+          "theoretical_std_error": 0.08125,
+          "within_1_std_error": true,
+          "within_3_std_error": true,
+          "memory_bytes": 1124,
+          "memory_kb": 1.09765625,
+          "insert_time_ms": 583.3590030670166,
+          "insert_throughput": 171421.02800205167,
+          "bytes_per_element": 0.131369798971482
+        },
+        {
+          "precision": 10,
+          "num_registers": 1024,
+          "true_cardinality": 8556,
+          "estimated_cardinality": 8614,
+          "error": 58,
+          "relative_error": 0.006778868630201029,
+          "theoretical_std_error": 0.040625,
+          "within_1_std_error": true,
+          "within_3_std_error": true,
+          "memory_bytes": 4196,
+          "memory_kb": 4.09765625,
+          "insert_time_ms": 582.1177959442139,
+          "insert_throughput": 171786.53649953575,
+          "bytes_per_element": 0.4904160822814399
+        },
+        {
+          "precision": 12,
+          "num_registers": 4096,
+          "true_cardinality": 8556,
+          "estimated_cardinality": 8613,
+          "error": 57,
+          "relative_error": 0.006661991584852735,
+          "theoretical_std_error": 0.0203125,
+          "within_1_std_error": true,
+          "within_3_std_error": true,
+          "memory_bytes": 16484,
+          "memory_kb": 16.09765625,
+          "insert_time_ms": 585.7765674591064,
+          "insert_throughput": 170713.55454480703,
+          "bytes_per_element": 1.9266012155212717
+        },
+        {
+          "precision": 14,
+          "num_registers": 16384,
+          "true_cardinality": 8556,
+          "estimated_cardinality": 12049,
+          "error": 3493,
+          "relative_error": 0.40825151940158955,
+          "theoretical_std_error": 0.01015625,
+          "within_1_std_error": false,
+          "within_3_std_error": false,
+          "memory_bytes": 65636,
+          "memory_kb": 64.09765625,
+          "insert_time_ms": 583.0378532409668,
+          "insert_throughput": 171515.4504019321,
+          "bytes_per_element": 7.671341748480598
+        },
+        {
+          "precision": 16,
+          "num_registers": 65536,
+          "true_cardinality": 8556,
+          "estimated_cardinality": 30937,
+          "error": 22381,
+          "relative_error": 2.6158251519401587,
+          "theoretical_std_error": 0.005078125,
+          "within_1_std_error": false,
+          "within_3_std_error": false,
+          "memory_bytes": 262244,
+          "memory_kb": 256.09765625,
+          "insert_time_ms": 589.1914367675781,
+          "insert_throughput": 169724.12319605317,
+          "bytes_per_element": 30.650303880317907
+        }
+      ]
+    },
+    {
+      "name": "Performance Across Cardinalities",
+      "description": "Accuracy and speed with different dataset sizes",
+      "data": [
+        {
+          "dataset_size": 10000,
+          "true_cardinality": 2863,
+          "estimated_cardinality": 3568,
+          "error": 705,
+          "relative_error": 0.24624519734544184,
+          "insert_time_ms": 57.51514434814453,
+          "insert_throughput": 173867.25032748014
+        },
+        {
+          "dataset_size": 50000,
+          "true_cardinality": 6776,
+          "estimated_cardinality": 6868,
+          "error": 92,
+          "relative_error": 0.01357733175914994,
+          "insert_time_ms": 292.0539379119873,
+          "insert_throughput": 171201.25260926248
+        },
+        {
+          "dataset_size": 100000,
+          "true_cardinality": 8556,
+          "estimated_cardinality": 8613,
+          "error": 57,
+          "relative_error": 0.006661991584852735,
+          "insert_time_ms": 585.2854251861572,
+          "insert_throughput": 170856.80882655462
+        },
+        {
+          "dataset_size": 500000,
+          "true_cardinality": 8556,
+          "estimated_cardinality": 8613,
+          "error": 57,
+          "relative_error": 0.006661991584852735,
+          "insert_time_ms": 587.0013236999512,
+          "insert_throughput": 851786.835587406
+        },
+        {
+          "dataset_size": 100000,
+          "true_cardinality": 8556,
+          "estimated_cardinality": 8613,
+          "error": 57,
+          "relative_error": 0.006661991584852735,
+          "insert_time_ms": 583.6737155914307,
+          "insert_throughput": 171328.59905927238
+        }
+      ]
+    },
+    {
+      "name": "Merge Operations",
+      "description": "Accuracy when merging multiple LogLog sketches",
+      "data": [
+        {
+          "num_chunks": 2,
+          "chunk_size": 50000,
+          "estimated_cardinality": 8613,
+          "true_cardinality": 8556,
+          "error": 57,
+          "relative_error": 0.006661991584852735,
+          "total_time_ms": 586.1611366271973
+        },
+        {
+          "num_chunks": 4,
+          "chunk_size": 25000,
+          "estimated_cardinality": 8613,
+          "true_cardinality": 8556,
+          "error": 57,
+          "relative_error": 0.006661991584852735,
+          "total_time_ms": 592.249870300293
+        },
+        {
+          "num_chunks": 8,
+          "chunk_size": 12500,
+          "estimated_cardinality": 8613,
+          "true_cardinality": 8556,
+          "error": 57,
+          "relative_error": 0.006661991584852735,
+          "total_time_ms": 585.2313041687012
+        },
+        {
+          "num_chunks": 16,
+          "chunk_size": 6250,
+          "estimated_cardinality": 8613,
+          "true_cardinality": 8556,
+          "error": 57,
+          "relative_error": 0.006661991584852735,
+          "total_time_ms": 589.1172885894775
+        }
+      ]
+    }
+  ]
+}

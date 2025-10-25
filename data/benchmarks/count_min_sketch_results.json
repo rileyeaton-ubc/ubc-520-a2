@@ -1,0 +1,181 @@
+{
+  "name": "Count-Min Sketch",
+  "experiments": [
+    {
+      "name": "Estimation Accuracy vs Dimensions",
+      "description": "How sketch dimensions affect frequency estimation accuracy",
+      "data": [
+        {
+          "width": 100,
+          "depth": 3,
+          "epsilon": 0.1,
+          "delta": 0.05,
+          "memory_bytes": 1300,
+          "memory_kb": 1.26953125,
+          "insert_time_ms": 712.615966796875,
+          "query_time_ms": 1.0004043579101562,
+          "insert_throughput": 140328.03734315446,
+          "query_throughput": 99959.58055290753,
+          "avg_error": 279.91,
+          "max_error": 1132,
+          "avg_relative_error": 0.9414232836286466,
+          "expected_error_bound": 10000.0,
+          "violations": 0,
+          "violation_rate": 0.0
+        },
+        {
+          "width": 500,
+          "depth": 5,
+          "epsilon": 0.02,
+          "delta": 0.01,
+          "memory_bytes": 10100,
+          "memory_kb": 9.86328125,
+          "insert_time_ms": 1178.701400756836,
+          "query_time_ms": 1.9993782043457031,
+          "insert_throughput": 84839.12883771131,
+          "query_throughput": 50015.54972573336,
+          "avg_error": 5.27,
+          "max_error": 91,
+          "avg_relative_error": 0.020872511441693373,
+          "expected_error_bound": 2000.0,
+          "violations": 0,
+          "violation_rate": 0.0
+        },
+        {
+          "width": 1000,
+          "depth": 7,
+          "epsilon": 0.01,
+          "delta": 0.005,
+          "memory_bytes": 28100,
+          "memory_kb": 27.44140625,
+          "insert_time_ms": 1631.744384765625,
+          "query_time_ms": 1.9996166229248047,
+          "insert_throughput": 61284.10854887879,
+          "query_throughput": 50009.5862644569,
+          "avg_error": 0.0,
+          "max_error": 0,
+          "avg_relative_error": 0.0,
+          "expected_error_bound": 1000.0,
+          "violations": 0,
+          "violation_rate": 0.0
+        },
+        {
+          "width": 2000,
+          "depth": 10,
+          "epsilon": 0.005,
+          "delta": 0.001,
+          "memory_bytes": 80100,
+          "memory_kb": 78.22265625,
+          "insert_time_ms": 2320.189952850342,
+          "query_time_ms": 2.999544143676758,
+          "insert_throughput": 43099.91941700743,
+          "query_throughput": 33338.39917335665,
+          "avg_error": 0.0,
+          "max_error": 0,
+          "avg_relative_error": 0.0,
+          "expected_error_bound": 500.0,
+          "violations": 0,
+          "violation_rate": 0.0
+        }
+      ]
+    },
+    {
+      "name": "Heavy Hitter Detection",
+      "description": "Precision and recall for finding frequent items",
+      "data": [
+        {
+          "threshold": 0.01,
+          "threshold_count": 1000,
+          "true_heavy_count": 13,
+          "estimated_heavy_count": 13,
+          "true_positives": 13,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        {
+          "threshold": 0.005,
+          "threshold_count": 500,
+          "true_heavy_count": 29,
+          "estimated_heavy_count": 31,
+          "true_positives": 29,
+          "precision": 0.9354838709677419,
+          "recall": 1.0
+        },
+        {
+          "threshold": 0.001,
+          "threshold_count": 100,
+          "true_heavy_count": 145,
+          "estimated_heavy_count": 164,
+          "true_positives": 145,
+          "precision": 0.8841463414634146,
+          "recall": 1.0
+        },
+        {
+          "threshold": 0.0005,
+          "threshold_count": 50,
+          "true_heavy_count": 301,
+          "estimated_heavy_count": 323,
+          "true_positives": 301,
+          "precision": 0.9318885448916409,
+          "recall": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Scalability Analysis",
+      "description": "Performance with increasing dataset sizes",
+      "data": [
+        {
+          "dataset_size": 10000,
+          "width": 272,
+          "depth": 5,
+          "memory_bytes": 5540,
+          "memory_kb": 5.41015625,
+          "insert_time_ms": 115.02289772033691,
+          "insert_throughput": 86939.21121961027,
+          "bytes_per_element": 0.554
+        },
+        {
+          "dataset_size": 50000,
+          "width": 272,
+          "depth": 5,
+          "memory_bytes": 5540,
+          "memory_kb": 5.41015625,
+          "insert_time_ms": 577.5778293609619,
+          "insert_throughput": 86568.41980122491,
+          "bytes_per_element": 0.1108
+        },
+        {
+          "dataset_size": 100000,
+          "width": 272,
+          "depth": 5,
+          "memory_bytes": 5540,
+          "memory_kb": 5.41015625,
+          "insert_time_ms": 1169.909954071045,
+          "insert_throughput": 85476.66395351254,
+          "bytes_per_element": 0.0554
+        },
+        {
+          "dataset_size": 500000,
+          "width": 272,
+          "depth": 5,
+          "memory_bytes": 5540,
+          "memory_kb": 5.41015625,
+          "insert_time_ms": 1181.6015243530273,
+          "insert_throughput": 423154.49810693954,
+          "bytes_per_element": 0.01108
+        },
+        {
+          "dataset_size": 100000,
+          "width": 272,
+          "depth": 5,
+          "memory_bytes": 5540,
+          "memory_kb": 5.41015625,
+          "insert_time_ms": 1170.6912517547607,
+          "insert_throughput": 85419.6184093022,
+          "bytes_per_element": 0.0554
+        }
+      ]
+    }
+  ]
+}
