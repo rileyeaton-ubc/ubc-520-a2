@@ -1,1 +1,38 @@
-A brief explanation on the experiments being conducted, why they were chosen for these data structures, and a hypothesis/analysis of how each will perform.
+To empirically validate the theoretical complexity analysis and evaluate the practical performance of our implementations, we conducted a comprehensive benchmark suite measuring memory usage, throughput, and scalability characteristics. The experiments were designed to test each data structure under realistic workloads while maintaining comparability across structures.
+
+\subsection{Experimental Setup}
+
+\subsubsection{Implementation Details}
+
+All three data structures were implemented from scratch using only Python's standard library, without external dependencies such as NumPy or specialized hashing libraries. This constraint ensures fair comparison and demonstrates the fundamental algorithms without optimization shortcuts. The implementations include:
+
+\begin{itemize}
+    \item \textbf{Bloom Filter}: Configured with $m = 1024$ bits and $k = 7$ hash functions, targeting approximately 1\% false positive rate
+    \item \textbf{Count-Min Sketch}: Configured with $w = 272$ (width) and $d = 5$ (depth), corresponding to $\epsilon = 0.01$ and $\delta = 0.01$
+    \item \textbf{LogLog}: Configured with $m = 1024$ registers ($b = 10$ bits), each storing up to 6 bits for leading zero counts
+\end{itemize}
+
+\subsubsection{Dataset Characteristics}
+
+We generated synthetic datasets following a Zipfian distribution with parameter $\alpha = 1.5$ (as described in Section~3), providing a realistic test of skewed access patterns.
+
+\subsubsection{Benchmark Methodology}
+
+We conducted three categories of experiments:
+
+\begin{enumerate}
+    \item \textbf{Memory Efficiency}: We measured actual memory footprint using Python's \texttt{sys.getsizeof()} on identical dataset sizes. This enables direct comparison across structures.
+
+    \item \textbf{Insert Throughput}: Measured operations per second during bulk insertion, averaged over multiple runs to reduce variance
+
+    \item \textbf{Scalability Analysis}: Tested performance across varying dataset sizes:
+    \begin{itemize}
+        \item Bloom Filter: 50, 125, 250, 375, 500 elements (smaller scale due to fixed bit array)
+        \item Count-Min Sketch: 10K, 50K, 100K, 500K elements
+        \item LogLog: 10K, 50K, 100K, 500K elements
+    \end{itemize}
+\end{enumerate}
+
+The different scale ranges reflect the practical use cases for each structure: Bloom filters for moderate-sized sets with strict space constraints, while Count-Min sketches and LogLog target streaming applications with potentially unbounded data volumes.
+
+Based on the complexity analysis in Section~2, we expect LogLog to show highest throughput ($O(1)$ updates), Bloom Filter to have lowest absolute memory (bit-level storage), and Count-Min Sketch to show best per-element efficiency at scale (fixed memory amortized over unbounded streams).
