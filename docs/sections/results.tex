@@ -21,7 +21,7 @@ LogLog & 16.10 & 170,714 & 1.93 \\
 
 \subsection{Comparative Analysis}
 
-Figure~\ref{fig:memory_performance} presents side-by-side comparisons of memory usage and insertion throughput. The results confirm our memory usage predictions: Bloom Filter achieves the lowest absolute memory footprint (0.68 KB), followed by Count-Min Sketch (5.41 KB) and LogLog (16.10 KB). However, this ranking reverses when considering per-element efficiency at scale, as demonstrated in the scalability analysis.
+Figure~\ref{fig:memory_performance} presents side-by-side comparisons of memory usage and insertion throughput. The results confirm the memory usage predictions: Bloom Filter achieves the lowest absolute memory footprint (0.68 KB), followed by Count-Min Sketch (5.41 KB) and LogLog (16.10 KB). However, this ranking reverses when considering per-element efficiency at scale, as demonstrated in the scalability analysis.
 
 \begin{figure}[h]
 \centering
@@ -30,7 +30,7 @@ Figure~\ref{fig:memory_performance} presents side-by-side comparisons of memory 
 \label{fig:memory_performance}
 \end{figure}
 
-The throughput results largely align with our hypotheses: LogLog achieves the highest performance (170,714 ops/sec), followed closely by Bloom Filter (166,718 ops/sec), with Count-Min Sketch trailing significantly (85,420 ops/sec). This ordering matches the theoretical complexity predictions---LogLog's $O(1)$ updates and Bloom Filter's small constant factor $k=7$ both outperform Count-Min Sketch's $d=5$ counter updates with poor cache locality.
+The throughput results largely align with the theoretical predictions: LogLog achieves the highest performance (170,714 ops/sec), followed closely by Bloom Filter (166,718 ops/sec), with Count-Min Sketch trailing significantly (85,420 ops/sec). This ordering matches the theoretical complexity predictions---LogLog's $O(1)$ updates and Bloom Filter's small constant factor $k=7$ both outperform Count-Min Sketch's $d=5$ counter updates with poor cache locality.
 
 \subsection{Scalability Analysis}
 
@@ -50,7 +50,7 @@ The left panel of Figure~\ref{fig:scalability} shows insertion throughput across
 \begin{itemize}
     \item \textbf{Bloom Filter}: Exhibits variable throughput between 120K--260K ops/sec on smaller datasets (50--500 elements). The non-monotonic behavior comes from Python interpreter warm-up effects and memory access patterns on small arrays, where cache performance dominates over algorithmic complexity.
 
-    \item \textbf{Count-Min Sketch}: Maintains remarkably stable throughput around 85K--95K ops/sec across four orders of magnitude (10K--500K elements), confirming the theoretical prediction of $O(d)$ constant-time updates independent of stream size. The consistency validates our implementation's efficiency.
+    \item \textbf{Count-Min Sketch}: Maintains remarkably stable throughput around 85K--95K ops/sec across four orders of magnitude (10K--500K elements), confirming the theoretical prediction of $O(d)$ constant-time updates independent of stream size. The consistency validates the implementation's efficiency.
 
     \item \textbf{LogLog}: Demonstrates exceptional scaling, maintaining 175K--180K ops/sec at smaller sizes and dramatically improving to nearly 900K ops/sec at 500K elements. This superlinear improvement contradicts the $O(1)$ theoretical bound and warrants explanation.
 \end{itemize}

@@ -1,4 +1,4 @@
-We generated a synthetic dataset modeled after web server access logs to comprehensively evaluate the three probabilistic data structures. This dataset type was chosen because it naturally supports testing all three data structures while reflecting realistic usage patterns.
+A synthetic dataset modeled after web server access logs was generated to comprehensively evaluate the three probabilistic data structures. This dataset type was chosen because it naturally supports testing all three data structures while reflecting realistic usage patterns.
 
 \subsection{Dataset Design}
 
@@ -16,7 +16,7 @@ This design allows testing each data structure with its intended use case:
 \begin{enumerate}
     \item \textbf{Bloom Filter}: Set membership testing for URLs (``Has this endpoint been accessed before?'')
     \item \textbf{Count-Min Sketch}: Frequency estimation for URLs (``How many times was each endpoint accessed?'')
-    \item \textbf{LogLog}: Cardinality estimation for user IDs (``How many unique visitors did we receive?'')
+    \item \textbf{LogLog}: Cardinality estimation for user IDs (``How many unique visitors were received?'')
 \end{enumerate}
 
 \subsection{Zipfian Distribution}
@@ -39,7 +39,7 @@ This distribution is critical for testing probabilistic data structures because 
 
 \subsection{Dataset Sizes}
 
-We generated three dataset sizes to evaluate scalability and accuracy trade-offs:
+Three dataset sizes were generated to evaluate scalability and accuracy trade-offs:
 
 \begin{table}[h]
 \centering
