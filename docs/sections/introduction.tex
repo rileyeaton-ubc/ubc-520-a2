@@ -1,1 +1,35 @@
-Explanation of the selected data structure briefly and their potential applications.
+Probabilistic data structures sacrifice perfect accuracy for significant gains in space efficiency and computational speed. Unlike exact data structures that provide deterministic guarantees, probabilistic data structures allow controlled error rates in exchange for using substantially less memory and faster query times. This trade-off makes them invaluable for processing massive datasets where storing complete information is impractical.
+
+This report analyzes three fundamental probabilistic data structures---Bloom filters, Count-Min sketches, and LogLog---each designed to solve a distinct problem in data stream processing and large-scale data analysis.
+
+\subsection{Bloom Filter}
+
+The Bloom filter, introduced by Burton Bloom in 1970~\cite{bloom1970space}, is a space-efficient probabilistic data structure for testing set membership. Given an element, a Bloom filter answers the query ``Is this element in the set?'' with two possible responses: ``definitely not in the set'' or ``possibly in the set.'' False positives are possible, but false negatives are not.
+
+The structure consists of a bit array of size $m$ and $k$ independent hash functions. When inserting an element, each hash function maps the element to a position in the bit array, and those positions are set to 1. To query an element, the same hash functions are applied; if all corresponding positions are 1, the filter returns ``possibly in set,'' otherwise ``definitely not in set.''
+
+Bloom filters have found widespread application in network systems~\cite{broder2004network}, including web caching (to avoid caching one-hit wonders), distributed databases (to reduce disk lookups), and content delivery networks. Modern systems like Google Chrome use Bloom filters to check URLs against malicious site databases without storing the entire list locally.
+
+The main trade-off is the false positive rate, which can be controlled by adjusting $m$ (bit array size) and $k$ (number of hash functions). The false positive probability decreases exponentially with the amount of memory allocated, making Bloom filters extremely space-efficient for applications that can tolerate occasional false positives.
+
+\subsection{Count-Min Sketch}
+
+The Count-Min sketch, developed by Cormode and Muthukrishnan in 2005~\cite{cormode2005improved}, extends the concept of probabilistic data structures to frequency estimation in data streams. Rather than simply testing membership, it estimates how many times each element has appeared in a stream.
+
+The data structure uses a two-dimensional array of counters with width $w$ and depth $d$. When an element arrives, hash functions map it to positions that are incremented. To estimate frequency, the sketch returns the minimum value across all positions, providing an upper bound on the true frequency.
+
+Count-Min sketches are crucial for many streaming applications: finding heavy hitters in network traffic, tracking popular queries in search engines, detecting DDoS attacks, and analyzing social media trends. The sketch guarantees that frequency estimates are never underestimated but may be overestimated due to hash collisions.
+
+The accuracy is controlled by two parameters: $\epsilon$ (the error bound) and $\delta$ (the failure probability). By choosing $w = \lceil e/\epsilon \rceil$ and $d = \lceil \ln(1/\delta) \rceil$, the sketch ensures that with probability at least $1-\delta$, the error in any frequency estimate is at most $\epsilon N$, where $N$ is the total number of items processed.
+
+\subsection{LogLog}
+
+The LogLog algorithm, introduced by Durand and Flajolet in 2003~\cite{durand2003loglog}, addresses the cardinality estimation problem: determining the number of distinct elements in a large multiset or data stream. This is a fundamental problem in database query optimization, network monitoring, and data analytics.
+
+The algorithm uses properties of hash functions and probabilistic counting. It hashes each element and examines the binary representation, specifically the position of the first 1-bit. Elements with long runs of leading zeros indicate large cardinality.
+
+To improve accuracy, LogLog partitions the input stream into $m = 2^b$ substreams using the first $b$ bits of each hash value. Each substream maintains its own maximum leading-zero count. The final cardinality estimate is computed as the harmonic mean of the estimates from all substreams, multiplied by a correction factor.
+
+LogLog performs cardinality estimation using only $m$ small registers (each storing $\log_2 \log_2 n_{\text{max}}$ bits, where $n_{\text{max}}$ is the maximum expected cardinality). This logarithmic-logarithmic space requirement is the origin of the algorithm's name. The standard error is approximately $1.30/\sqrt{m}$, meaning accuracy improves with the square root of the number of registers.
+
+Applications include database query optimization (estimating the size of joins), web analytics (counting unique visitors), and distributed systems (tracking distinct items across multiple nodes). Later variants like HyperLogLog further improved the accuracy and are now widely deployed in systems like Redis and Google BigQuery.
