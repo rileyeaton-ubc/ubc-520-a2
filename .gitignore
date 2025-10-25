@@ -14,3 +14,6 @@ assignment.pdf
 *.bbl
 *.blg
 *.pre
+
+# Large datasets (exceeds GitHub 100MB limit)
+data/large/
