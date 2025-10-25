@@ -15,10 +15,10 @@ My final report for this assignment is available at [docs/riley_eaton_A2_report.
 ## Quick start for replicating
 
 1. Clone the repository and ensure you have Python 3
-2. Run `python -m pip install -r requirements.txt`
-3. Generate datasets: `python scripts/generate_dataset.py --sizes` _(more info below)_
-4. Run tests: `pytest tests/ -v` _(more info below)_
-5. Run benchmarks: `python scripts/run_benchmarks.py` _(more info below)_
+2. Install dependencies: `pip install -r requirements.txt`
+3. Generate datasets (if needed): `python scripts/generate_dataset.py --sizes`
+4. Run tests: `pytest tests/ -v`
+5. Run benchmarks: `python scripts/benchmark.py --data-dir data/medium`
 
 ## Dataset
 
@@ -120,3 +120,34 @@ All implementations are built from scratch without external libraries:
 - **Math Operations**: Only standard `math` library for logarithms and exponentials
 
 Tests use both synthetic data and the generated Zipfian-distributed datasets with ground truth validation to ensure accuracy and bounds.
+
+## Benchmarking
+
+Run comprehensive benchmarks on all three data structures:
+
+```bash
+python scripts/benchmark.py --data-dir data/medium
+```
+
+Benchmarks measure:
+
+- **Memory efficiency**: Actual bytes used per structure
+- **Insertion throughput**: Operations per second
+- **Scalability**: Performance across dataset sizes (10K-500K elements)
+- **Accuracy**: Error rates vs. theoretical bounds
+
+Results are saved to `data/benchmarks/` as JSON files. Visualizations can be generated using the Jupyter notebook at `notebooks/benchmark_analysis.ipynb`.
+
+## Key Results
+
+Performance on medium dataset (100K events):
+
+| Structure            | Memory   | Throughput   | Use Case               |
+| -------------------- | -------- | ------------ | ---------------------- |
+| **Bloom Filter**     | 0.68 KB  | 166K ops/sec | Set membership         |
+| **Count-Min Sketch** | 5.41 KB  | 85K ops/sec  | Frequency estimation   |
+| **LogLog**           | 16.10 KB | 170K ops/sec | Cardinality estimation |
+
+**Key Finding**: Count-Min Sketch achieves best memory efficiency at scale (0.0554 bytes/element) as its fixed memory amortizes over unbounded streams, while LogLog achieves highest throughput with O(1) updates.
+
+See the [full report](docs/riley_eaton_A2_report.pdf) for detailed analysis and comparisons.
